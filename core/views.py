@@ -1,7 +1,9 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.db.models import Q
 from django.shortcuts import redirect, render
+from django.views.generic import TemplateView
 
 from product.models import Product, Category
 from .forms import SignUpForm
@@ -14,8 +16,8 @@ def frontpage(request):
 
     return render(request, 'core/frontpage.html', context)
 
-def about_us(request):
-    return render(request, 'core/about_us.html')
+class AboutUs(TemplateView):
+    template_name = 'core/about_us.html'
 
 def signup(request):
     if request.method == "POST":
@@ -33,9 +35,9 @@ def signup(request):
     }
     return render(request, 'core/signup.html', context)
 
-@login_required
-def myaccount(request):
-    return render(request, 'core/myaccount.html')
+@method_decorator(login_required, name="dispatch")
+class MyAccount(TemplateView):
+    template_name = 'core/myaccount.html'
 
 @login_required
 def edit_myaccount(request):

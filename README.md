@@ -4,7 +4,9 @@ I have create a basic Ecommerce Website using the Django and for payment gateway
 >search on site<br>
 >add to cart<br>
 >increment or decrement the quantity of product<br>
->finally checkout by using stripe payment gateway (It's for demo purpose only)
+>finally checkout by using stripe payment gateway (It's for demo purpose only) <br>
+
+In this site, I have use tailwind CSS  https://tailwindcss.com/ for css and HTMX https://htmx.org/ rather than using javascript.
 
 ## Installation
 Create a virtual env (virtualenv venv)<br>

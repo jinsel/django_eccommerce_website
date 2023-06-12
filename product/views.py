@@ -6,9 +6,7 @@ def product(request, slug):
 
     if request.method == 'POST':
         rating = request.POST.get('rating', 3)
-        content = request.POST.get('content', '')
-
-        if content:
+        if content := request.POST.get('content', ''):
             reviews = Review.objects.filter(created_by=request.user, product=product)
 
             if reviews.count() > 0:

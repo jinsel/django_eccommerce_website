@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 from product.models import Product
 from .cart import Cart
 
@@ -10,11 +11,11 @@ def add_to_cart(request, product_id):
 
     return render(request, 'cart/partials/menu_cart.html')
 
-def cart(request):
-    return render(request, 'cart/cart.html')
+class Cart(TemplateView):
+    template_name = 'cart/cart.html'
 
-def success(request):
-    return render(request, 'cart/success.html')
+class Success(TemplateView):
+    template_name = 'cart/success.html'
 
 def update_cart(request, product_id, action):
     cart = Cart(request)
@@ -53,11 +54,11 @@ def checkout(request):
     pub_key = settings.STRIPE_PUBLISHABLE_KEY
     return render(request, 'cart/checkout.html', {'pub_key':pub_key})
 
-def hx_menu_cart(request):
-    return render(request, 'cart/partials/menu_cart.html')
+class HxMenuCart(TemplateView):
+    template_name = 'cart/partials/menu_cart.html'
 
-def hx_cart_total(request):
-    return render(request, 'cart/partials/cart_total.html')
+class HxCartTotal(TemplateView):
+    template_name = 'cart/partials/cart_total.html'
 
 
 
