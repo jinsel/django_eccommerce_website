@@ -21,7 +21,10 @@
                         <li><a href="{% url 'about_us' %}">About</a></li>
                         {% if request.user.is_authenticated %}
                             <li><a href="{% url 'logout' %}">Log out</a></li>
+                        {% else %}
+                            <li><a href="{% url 'signup' %}">Sign up</a></li>
                         {% endif %}
+                        
                     </ul>
                 </div>
 

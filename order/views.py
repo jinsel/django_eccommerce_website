@@ -34,7 +34,6 @@ def start_order(request):
         success_url="http://127.0.0.1:8000/cart/success",
         cancel_url = "http://127.0.0.1:8000/cart"
     )
-    payment_intent = session.payment_intent
    
     order = Order.objects.create(user=request.user,
                                 first_name=data['first_name'],
@@ -44,7 +43,6 @@ def start_order(request):
                                 zipcode=data['zipcode'],
                                 place=data['place'],
                                 phone=data['phone'],
-                                payment_intent=payment_intent,
                                 paid=True,
                                 paid_amount = total_price * 100
                                 )
@@ -62,5 +60,4 @@ def start_order(request):
         
     return JsonResponse({
         'session':session,
-        'order':payment_intent
     })

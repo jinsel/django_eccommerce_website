@@ -11,7 +11,7 @@ def add_to_cart(request, product_id):
 
     return render(request, 'cart/partials/menu_cart.html')
 
-class Cart(TemplateView):
+class CartView(TemplateView):
     template_name = 'cart/cart.html'
 
 class Success(TemplateView):
