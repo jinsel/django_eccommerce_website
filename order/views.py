@@ -1,9 +1,17 @@
 import stripe
 import json
+import time
 from django.conf import settings
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import Order, OrderItem
 from cart.cart import Cart
+from product.models import Product
 
 def start_order(request):
     cart = Cart(request)
@@ -61,3 +69,52 @@ def start_order(request):
     return JsonResponse({
         'session':session,
     })
+
+@method_decorator(csrf_exempt, name="dispatch")
+class StripeWebhookView(View):
+    """
+    Stripe webhook view to handle checkout session completed event.
+    """
+
+    def post(self, request, format=None):
+        payload = request.body
+        endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+        sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+        event = None
+
+        try:
+            event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+        except ValueError as e:
+            # Invalid payload
+            return HttpResponse(status=400)
+        except stripe.error.SignatureVerificationError as e:
+            # Invalid signature
+            return HttpResponse(status=400)
+
+        if event["type"] == "checkout.session.completed":
+            print("Payment successful")
+            session = event["data"]["object"]
+            customer_email = session["customer_details"]["email"]
+            product_id = session["metadata"]["product_id"]
+            product = get_object_or_404(Product, id=product_id)
+
+            send_mail(
+                subject="Here is your product",
+                message=f"Thanks for your purchase. The URL is: {product.url}",
+                recipient_list=[customer_email],
+                from_email="test@gmail.com",
+            )
+
+
+        elif event['type'] == 'checkout.session.async_payment_failed':
+            session = event['data']['object']
+            customer_email = session["customer_details"]["email"]
+
+             # Send an email to the customer asking them to retry their order
+            send_mail(
+                subject="Payment Failed",
+                message="Your Payment is failed. Please retry for payment.",
+                recipient_list=[customer_email],
+                from_email="test@gmail.com",
+            )
+        return HttpResponse(status=200)

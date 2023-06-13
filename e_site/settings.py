@@ -147,3 +147,4 @@ STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET = config("STRIPE_WEBHOOK_SECRET")
 
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
