@@ -16,8 +16,8 @@ def frontpage(request):
 
     return render(request, 'core/frontpage.html', context)
 
-class AboutUs(TemplateView):
-    template_name = 'core/about_us.html'
+def about_us(request):
+    return render(request,  'core/about_us.html')
 
 def signup(request):
     if request.method == "POST":
@@ -35,9 +35,9 @@ def signup(request):
     }
     return render(request, 'core/signup.html', context)
 
-@method_decorator(login_required, name="dispatch")
-class MyAccount(TemplateView):
-    template_name = 'core/myaccount.html'
+@login_required
+def my_account(request):
+    return render(request, 'core/myaccount.html')
 
 @login_required
 def edit_myaccount(request):
