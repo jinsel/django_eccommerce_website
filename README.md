@@ -1,6 +1,4 @@
 # Django Ecommerce Website with Stripe Payment Integration
-![Screenshot 2023-06-12 121130](https://github.com/jinsel/django_eccommerce_website/assets/55542626/fc7ac154-5ffd-48c6-8e25-98f6a49edeef)
-
 I have create a basic Ecommerce Website using the Django and for payment gateway i have used <b>stripe</b>, where we can<br>
 >login/logout, register new user on site
 >search on site<br>
