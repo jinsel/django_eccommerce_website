@@ -14,8 +14,9 @@ def add_to_cart(request, product_id):
 class CartView(TemplateView):
     template_name = 'cart/cart.html'
 
-def success(request):
-    return render(request, 'cart/success.html')
+class Success(TemplateView):
+    template_name = 'cart/success.html'
+
 
 def update_cart(request, product_id, action):
     cart = Cart(request)
@@ -54,11 +55,10 @@ def checkout(request):
     pub_key = settings.STRIPE_PUBLISHABLE_KEY
     return render(request, 'cart/checkout.html', {'pub_key':pub_key})
 
-def hx_menu_cart(request):
-    return render(request, 'cart/partials/menu_cart.html')
+class HxMenuCart(TemplateView):
+    template_name ='cart/partials/menu_cart.html'
 
-def hx_cart_total(request):
-    return render(request, 'cart/partials/cart_total.html')
-
-
+class HxCartTotal(TemplateView):
+    template_name = 'cart/partials/cart_total.html'
+    
 
